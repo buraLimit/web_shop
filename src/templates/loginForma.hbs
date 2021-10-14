@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Prijava</title>
+
+
+
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://openweathermap.org/themes/openweathermap/assets/vendor/owm/css/openweathermap-widget-right.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- Nav bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <a class="navbar-brand" href="/"><img src="https://image.freepik.com/free-vector/shopping-cart-supermarket-logo-template_23-2148470295.jpg" style="width: 60px;height: 60px"></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Pocetna</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/prijaviSe">Prijavi se</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<!-- Forma -->
+<div class="container-fluid">
+    <div class="container" style="">
+        <div class="row " >
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto ">
+                <div class="card my-3" style="box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);border-radius: 1rem ">
+                    <div class="card-body">
+                        <h5 class="card-title">Prijava</h5>
+
+                        <form id="formaPrijava" action="/login" method="post">
+                            <div class="form-label-group">
+                                <input type="text" id="inputUser" class="form-control" name="korisnik" placeholder="Korisnicko ime" required autofocus>
+<!--                                <label for="inputUser">Korisnicko ime</label>-->
+                            </div>
+
+                            <div class="form-label-group">
+                                <input type="password" id="inputPassword" class="form-control" name="lozinka" placeholder="Lozinka" required>
+<!--                                <label for="inputPassword">Lozinka</label>-->
+                            </div>
+                            <hr class="my-4">
+                            {{#if poruka}}
+                                <p style="color: darkred"><strong>{{poruka}}</strong></p>
+                            {{/if}}
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Potvrdi <i class="fas fa-sign-in-alt"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

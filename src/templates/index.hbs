@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Pocetna</title>
+
+
+
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://openweathermap.org/themes/openweathermap/assets/vendor/owm/css/openweathermap-widget-right.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- Nav bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <a class="navbar-brand" href="/"><img src="https://image.freepik.com/free-vector/shopping-cart-supermarket-logo-template_23-2148470295.jpg" style="width: 60px;height: 60px" alt="logo"></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Pocetna</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/prijaviSe">Prijavi se</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<!-- Glavna sekcija -->
+<div class="container-fluid mt-2">
+    <div class="row mt-2">
+        <!-- Leva strana -->
+        <div class="col-md-2 mt-3" style="border-right:solid 0.2px rgba(0, 0, 0, 0.3)">
+
+            <div class="row ml-2" style="width: 100%">
+                <div class="col-12">
+                <div class="input-group" >
+                    <div class="form-inline" style="border: black solid 0.5px;" >
+                        <input id="inputPretraga" type="search" class="form-control " placeholder="Pretraga..." style="border: none;width: 80%"/>
+                        <button type="button" class="btn btn-light" id="btnPretraga" style="width: 20%;"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="row mt-2 ml-2" style="width: 100%">
+                <div class="col-12">
+                <label><b>Sortiraj: </b> </label>
+                <select class="ml-1" id="sortiranje" style="width: auto">
+                    <option value="null">Podrazumevano</option>
+                    <option value="nazivAsc">Nazivu rastuce</option>
+                    <option value="nazivDesc">Nazivu opadajuce</option>
+                    <option value="cenaAsc">Ceni rastuce</option>
+                    <option value="cenaDesc">Ceni opadajuce</option>
+                </select>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Desna strana -->
+        <div class="col-md-10" id="kolonaProizvoda">
+        {{#if proizvodi}}
+            <div class="row ">
+                {{#each proizvodi}}
+                    {{#if this.vidljivost}}
+                    <div class="col-md-3 d-flex" >
+                        <div class="card my-2" style="width:auto; box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1)">
+                            <img class="card-img-top mx-auto mt-3 " src="{{this.src}}" alt="image" style="width:90%">
+                            <div class="card-body text-center d-flex flex-column" style="height: 100%">
+                                <h4 class="card-title ">{{this.naziv}}</h4>
+                                <p class="card-text text-left">{{this.opis}} </p>
+                                <h4 class="card-text text-right mt-auto">{{this.cena}} RSD</h4>
+                                <hr class="my-4">
+                                <a href="#" class="btn btn-success text-center mt-auto">Dodaj <i class="fas fa-shopping-cart"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
+
+        </div>
+    </div>
+</div>
+
+<!-- Dalji kod-->
+
+<script>
+
+    let btnPretraga =document.querySelector("#btnPretraga");
+    let divProizvodi =document.querySelector("#kolonaProizvoda");
+    let sortiranje = document.querySelector("#sortiranje");
+    let inputPretraga = document.querySelector("#inputPretraga");
+
+    btnPretraga.onclick = function (){
+        let pretraga = inputPretraga.value;
+        console.log(pretraga);
+        $.ajax({
+            url: "/api/pretraga",
+            method: "POST",
+            data: {
+                "pojam":pretraga
+            },
+            success: function (response){
+                prikazi(response)
+            }
+        })
+    }
+
+    sortiranje.onchange = function(){
+        console.log(sortiranje.value);
+        $.ajax({
+            url:"/api/sortiranje",
+            method:"POST",
+            data: {
+                "sort":sortiranje.value
+            },
+            success: function (response){
+                prikazi(response)
+            }
+            })
+    }
+
+    function prikazi(lista){
+        divProizvodi.innerHTML=``;
+        let html = `<div class="row">`;
+        for (let el of lista){
+            if(el.vidljivost){
+            html+=`
+    	            <div class="col-md-3 d-flex" >
+                        <div class="card my-2" style="width: auto; box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);">
+                            <img class="card-img-top mx-auto mt-3 " src="${el.src}" alt="Card image" style="width:90%;">
+                            <div class="card-body text-center d-flex flex-column" style="height: 100%">
+                                <h4 class="card-title ">${el.naziv}</h4>
+                                <p class="card-text text-left">${el.opis} </p>
+                                <h4 class="card-text text-right mt-auto">${el.cena} RSD</h4>
+                                <hr class="my-4">
+                                <a href="#" class="btn btn-success text-center mt-auto">Dodaj <i class="fas fa-shopping-cart"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+
+    	        `;
+            }
+        }
+        html+=`</div>`
+        divProizvodi.innerHTML=html;
+    }
+
+  /*  let filtriraj = document.querySelector("#drzava");
+
+    filtriraj.onchange=function(){
+        console.log(filtriraj.value);
+        $.ajax({
+            url: "/filtriraj",
+            method:"POST",
+            data: {
+                "drzava":filtriraj.value
+            },
+            success: function (response){
+                prikazi(response)
+            }
+        })
+    }
+
+    function sortiraj(element){
+        let sort = element.value;
+        $.ajax({
+            url:"/sortiraj",
+            method: "POST",
+            data: {
+                "sort":sort
+            },
+            success:function (response){
+                prikazi(response)
+            }
+        })
+    }
+*/
+</script>
+
+</body>
+</html>

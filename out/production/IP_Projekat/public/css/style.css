@@ -1,0 +1,39 @@
+body {
+    background: #f5f4eb;
+    background: linear-gradient(to right, #f5f4eb, #f0f0f0);
+}
+
+.form-label-group input {
+    height: auto;
+    border-radius: 2rem;
+}
+
+.form-label-group{
+    margin-bottom: 2rem;
+}
+
+.card-title {
+    position: relative;
+    margin-bottom: 5rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+#formaPrijava .btn {
+    font-size: 80%;
+    border-radius: 5rem;
+    letter-spacing: .1rem;
+
+    padding: 1rem;
+    transition: all 0.2s;
+}
+
+.form-popup {
+    display: none;
+    position: fixed;
+    top: 100px;
+    left: 15px;
+    border: 3px solid black;
+    z-index: 9;
+}
